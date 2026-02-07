@@ -1,0 +1,71 @@
+global !p
+
+from latex_.scopes import math
+
+endglobal
+
+
+################################################################################
+#                                                                              #
+#                                     Sets                                     #
+#                                                                              #
+################################################################################
+
+# in  -> \in
+# not -> \not
+context "math()"
+snippet "(in|not)" "In and Not" ir
+\\`!p
+snip.rv = match.group(1)
+`
+endsnippet
+
+# OO -> \emptyset
+context "math()"
+snippet OO "Empty" Ai
+\emptyset
+endsnippet
+
+# SS -> \subseteq
+context "math()"
+snippet SS "Subset Equal" Ai
+\subseteq
+endsnippet
+
+# Cc -> \subset
+context "math()"
+snippet Cc "Subset" Ai
+\\subseteq
+endsnippet
+
+# set -> \{  \}
+context "math()"
+snippet set "Set" w
+\left\\{${1:x}${2: \in ${3:\mathbb{R}}}${4: \mid ${5:P(x)}}\right\\}$0
+endsnippet
+
+# up -> \cup
+context "math()"
+snippet up "Cup" iAw
+\cup
+endsnippet
+
+# UP -> \bigcup
+context "math()"
+snippet UP "Bigcup" iAw
+\bigcup_{${1:i=1}}^{${2:\infty}} ${0:A_i}
+endsnippet
+
+# ap -> \cap
+context "math()"
+snippet ap "Cap" iAw
+\cap
+endsnippet
+
+# AP -> \bigcap
+context "math()"
+snippet AP "Bigcap" iAw
+\bigcap_{${1:i=1}}^{${2:\infty}} ${0:A_i}
+endsnippet
+
+# vim:ft=snippets:

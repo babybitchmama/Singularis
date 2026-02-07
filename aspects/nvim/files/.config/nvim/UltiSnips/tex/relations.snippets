@@ -1,0 +1,102 @@
+global !p
+
+from builtin import chooseNext
+from latex_.scopes import math
+from latex_.variables import nornot
+
+endglobal
+
+
+################################################################################
+#                                                                              #
+#                                  Relations                                   #
+#                                                                              #
+################################################################################
+
+# := -> \coloneq
+context "math()"
+snippet := "Definition" w
+\coloneqq
+endsnippet
+
+# >> -> \gg
+context "math()"
+snippet >> "Much Larger Than" Ai
+\gg
+endsnippet
+
+# << -> \ll
+context "math()"
+snippet << "Much Smaller Than" Ai
+\ll
+endsnippet
+
+# <= -> \le
+context "math()"
+snippet <= "Smaller or Equal" Ai
+\le
+endsnippet
+
+# >= -> \ge
+context "math()"
+snippet >= "Larger or Equal" Ai
+\ge
+endsnippet
+
+# != -> \ne
+snippet != "Not Equal" Ai
+\ne
+endsnippet
+
+# suc -> \succ
+context "math()"
+snippet suc "Succeeds" Ai
+\succ $0
+endsnippet
+
+# seq -> \succeq
+context "math()"
+snippet seq "Succeeds or Equal to" Ai
+\succeq $0
+endsnippet
+
+# pec -> \prec
+context "math()"
+snippet pec "Precedes" Ai
+\prec $0
+endsnippet
+
+# peq  -> \preceq
+context "math()"
+snippet peq "Precedes or equal to" Ai
+\preceq $0
+endsnippet
+
+# ~~ -> \approx
+context "math()"
+snippet ~~ "Approximation" Ai
+\approx
+endsnippet
+
+# oc -> \propto
+context "math()"
+snippet oc "Proportional" Aw
+\propto
+endsnippet
+
+# =~ -> \sim
+context "math()"
+snippet =~ "Similar" Ai
+\sim
+endsnippet
+
+# \nsim -> \sim
+# \sim  -> \nsim
+context "math()"
+snippet "\\(n?)sim(\s?)" "Similar Transformation" r
+\\`!p
+snip.rv = chooseNext(match.group(1), nornot, 2) + "sim" + match.group(2)
+`
+endsnippet
+
+# vim:ft=snippets:

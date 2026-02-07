@@ -1,0 +1,84 @@
+global !p
+
+from builtin import chooseNext
+from latex_.scopes import displayMath, math
+from latex_.variables import opening, closing, vert
+
+endglobal
+
+
+################################################################################
+#                                                                              #
+#                                 Parenthesis                                  #
+#                                                                              #
+################################################################################
+
+# () -> \left(\right)
+context "displayMath()"
+snippet "\(\)" "Parenthesis" r
+\left($1\right)
+endsnippet
+
+# {} -> \left\{\right\}
+context "displayMath()"
+snippet "{}" "Curly Brackets" r
+\left\\{$1\right\\}
+endsnippet
+
+# [] -> \left[\right]
+context "displayMath()"
+snippet "\[\]" "Square Brackets" r
+\left[$1\right]
+endsnippet
+
+# \left(x\right)   -> \left[x\right]
+# \left[x\right]   -> \left\{x\right\}
+# \left\{x\right\} -> \left(x\right)
+context "math()"
+snippet "\\left(\(|\[|\\\{)(.+)?\\right(\)|\]|\\\})" "Cycle Parenthesis" r
+`!p
+nextOpen = chooseNext(match.group(1), opening, 3)
+nextClose = chooseNext(match.group(3), closing, 3)
+content = "" if match.group(2) is None else match.group(2)
+snip.rv = "\\left" + nextOpen + content + "\\right" + nextClose
+`
+endsnippet
+
+# | -> \lvert  \rvert
+priority 0
+context "math()"
+snippet | "One Verticals" i
+\lvert $1 \rvert
+endsnippet
+
+# ,. -> \langle  \rangle
+context "math()"
+snippet ,. "Right and Left Angle Brackets" i
+\langle $1 \rangle
+endsnippet
+
+# ., -> \left\langle  \right\rangle
+context "math()"
+snippet .. "Right and Left Angle Brackets" i
+\left\langle $1 \right\rangle
+endsnippet
+
+# || -> \lVert  \rVert
+priority 1
+context "math()"
+snippet || "Two Verticals" i
+\lVert $1 \rVert
+endsnippet
+
+# \lvert x \rvert -> \lVert x \rVert
+# \lVert x \rVert -> \lvert x \rvert
+context "math()"
+snippet "(\\lvert|\\lVert)(.+)?(\\rvert|\\rVert)" "Cycle Parenthesis" r
+`!p
+nextVert = chooseNext(match.group(1), vert, 2)
+content = "" if match.group(2) is None else match.group(2)
+snip.rv = nextVert + content + nextVert
+`
+endsnippet
+
+# vim:ft=snippets:

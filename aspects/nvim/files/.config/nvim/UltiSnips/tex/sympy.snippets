@@ -1,0 +1,103 @@
+global !p
+
+from latex_.scopes import math
+from latex_.extcal import *
+
+endglobal
+
+
+################################################################################
+#                                                                              #
+#                            Mathematica and Sympy                             #
+#                                                                              #
+################################################################################
+
+priority 1000
+snippet math "mathematica block" w
+math $1 math$0
+endsnippet
+
+priority 10000
+snippet 'math(.*)math' "evaluate mathematica" wr
+`!p
+import subprocess
+code = 'ToString[' + match.group(1) + ', TeXForm]'
+snip.rv = subprocess.check_output(['wolframscript', '-code', code])
+`
+endsnippet
+
+priority 0
+context "math()"
+snippet "sym" "SymPy Block" wr
+sympy ${1:${VISUAL}} sympy$0
+endsnippet
+
+snippet "sympy (.*?) sympy" "Evaluate SymPy" wr
+`!p
+from sympy import *
+x, y, z, t = symbols('x y z t')
+i, j, k = symbols('i j k', integer=True)
+f, g, h = symbols('f g h', cls=Function)
+string = preProcessText(match.group(1))
+latexString = latex(eval(string))
+latexString = expandBrackets(latexString)
+snip.rv = processLatex(latexString)
+`
+endsnippet
+
+priority 1
+context "math()"
+snippet "\\sym" "SymPy Block" wr
+\\sympy ${1:${VISUAL}} \\sympy$0
+endsnippet
+
+snippet '\\sympy (.*?) \\sympy' "Evaluate SymPy" wr
+`!p
+from sympy import *
+from latex2sympy2 import *
+x, y, z, t = symbols("x y z t")
+i, j, k = symbols("i j k", integer=True)
+f, g, h = symbols("f g h", cls=Function)
+string = preProcessLatex(match.group(1))
+sympyString = latex2sympy(string)
+latexString = latex(sympyString.doit())
+latexString = expandBrackets(latexString)
+snip.rv = latexString
+`
+endsnippet
+
+priority 1
+context "math()"
+snippet "\\SYM" "SymPy Block" wr
+\\SYMPY ${1:${VISUAL}} \\SYMPY$0
+endsnippet
+
+snippet '\\SYMPY (.*?) \\SYMPY' "Evaluate SymPy" wr
+`!p
+from sympy import *
+from latex2sympy2 import *
+x, y, z, t = symbols("x y z t")
+i, j, k = symbols("i j k", integer=True)
+f, g, h = symbols("f g h", cls=Function)
+string = preProcessLatex(match.group(1))
+sympyString = latex2sympy(string)
+latexString = latex(sympyString.doit())
+latexString = expandBrackets(latexString)
+snip.rv = f"{match.group(1)} = {latexString}"
+`
+endsnippet
+
+priority 0
+context "math()"
+snippet "Sym" "SymPy Block" wr
+Sympy
+${1:${VISUAL}}
+Sympy$0
+endsnippet
+
+context "getBlock('Sympy', snip)"
+pre_expand "calculateSympy(snip, False)"
+snippet "Sympy" "Evaluate Sympy" wr
+endsnippet
+
+# vim:ft=snippets:

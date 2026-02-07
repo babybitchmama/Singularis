@@ -1,0 +1,92 @@
+global !p
+
+from latex_.scopes import math
+
+endglobal
+
+
+################################################################################
+#                                                                              #
+#                            Sup and Super Scripts                             #
+#                                                                              #
+################################################################################
+
+# , -> _{}
+context "math()"
+snippet , "Subscript" i
+_{${1:${VISUAL}}}
+endsnippet
+
+# ,t -> _{\textrm{}}
+context "math()"
+snippet ,t "Subscript" i
+_{\textrm{${1:${VISUAL}}}}
+endsnippet
+
+# x3 -> x_3
+context "math()"
+snippet "([a-zA-Z])(\d)" "Auto Number Subscript" Ar
+`!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
+endsnippet
+
+# x_33 -> x_{33}
+context "math()"
+snippet "([a-zA-Z])_(\d\d)" "Auto Number Subscript" Ar
+`!p snip.rv = match.group(1)`_`!p snip.rv = "{" + match.group(2) + "}"`
+endsnippet
+
+# x_{33}3 -> x_{333}
+context "math()"
+snippet "([a-zA-Z])_\{(\d+)\}(\d)" "Auto Number Subscript" Ar
+`!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2) + match.group(3)`}
+endsnippet
+
+# x,i -> x_i
+# x,j -> x_j
+# x,k -> x_k
+# x,p -> x_p
+# x,q -> x_q
+# x,m -> x_m
+# x,n -> x_n
+context "math()"
+snippet "([a-zA-Z]),(i|j|k|p|q|m|n)" "Auto Variable Subscript" Ar
+`!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
+endsnippet
+
+# 10x'x -> 10x^x
+context "math()"
+snippet "([a-zA-Z\d])'([a-zA-Z\d-])" "Superscript" Ar
+`!p snip.rv = match.group(1)`^`!p snip.rv = match.group(2)`
+endsnippet
+
+# inv -> ^{-}
+context "math()"
+snippet inv "Inverse" iA
+^{-1}
+endsnippet
+
+# ss -> ^{}
+context "math()"
+snippet ss "Superscript" iA
+^{$1}
+endsnippet
+
+# soo -> ^{}
+context "math()"
+snippet soo "To infinity" iA
+^\infity
+endsnippet
+
+# sr -> \sqrt{}
+context "math()"
+snippet sr "Root" Aw
+\sqrt{${1:${VISUAL}}}
+endsnippet
+
+# sn -> x \times 10^{n}
+context "math()"
+snippet sn "Scientific Notation" w
+${1:x} \times 10^{${2:n}}
+endsnippet
+
+# vim:ft=snippets:

@@ -1,0 +1,155 @@
+global !p
+
+from latex_.cmdsub import createTable, addRow
+from latex_.matrix import createMatrix
+from latex_.scopes import math, displayMath, inlineMath, chem, notChem, unit, notUnit, text, env
+
+endglobal
+
+
+################################################################################
+#                                                                              #
+#                                 Environments                                 #
+#                                                                              #
+################################################################################
+
+context "text()"
+snippet beg "begin{} / end{}" Abm
+\begin{$1}[$2]
+  \label{$3:${4:${2/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+
+  ${VISUAL}$5
+\end{$1}
+endsnippet
+
+context "text()"
+snippet mbeg "begin{} / end{}" Abm
+\begin{$1}
+  ${VISUAL}$2
+\end{$1}
+endsnippet
+
+context "text()"
+snippet doc "Document Environment" Abm
+\begin{document}
+	${VISUAL}$1
+\end{document}
+endsnippet
+
+context "text()"
+snippet cnt "Center Environment" Abm
+\begin{center}
+	${VISUAL}$1
+\end{center}
+endsnippet
+
+context "text()"
+snippet enum "Enumerate Environment" Abm
+\begin{enumerate}
+	\item ${VISUAL}$1
+\end{enumerate}
+endsnippet
+
+context "text()"
+snippet item "Itemize Environment" Abm
+\begin{itemize}
+	\item ${VISUAL}$1
+\end{itemize}
+endsnippet
+
+context "text()"
+snippet prf "Proof Environment" Abm
+\begin{proof}
+	${VISUAL}$1
+\end{proof}
+endsnippet
+
+context "text()"
+snippet ali "Align* Environment" Abm
+\begin{align*}
+	${VISUAL}$1
+${2:.}\end{align*}
+endsnippet
+
+context "text()"
+snippet ali "Align Environment" Abm
+\begin{align}
+	${VISUAL}$1
+${2:.}\end{align}
+endsnippet
+
+context "text()"
+snippet ant "Alignat* Environment" Abm
+\begin{alignat*}{${1:5}}
+	${VISUAL}$2
+${3:.}\end{alignat*}
+endsnippet
+
+context "text()"
+snippet ant "Alignat Environment" Abm
+\begin{alignat}{${1:5}}
+	${VISUAL}$2
+${3:.}\end{alignat}
+endsnippet
+
+context "text()"
+snippet minipage "Minipage" Abm
+\begin{minipage}{.${1:5}\linewidth}
+	${VISUAL}$2
+\end{minipage}
+endsnippet
+
+context "text()"
+snippet multicols "Multicols" Abm
+\begin{multicols}{${1:2}}
+	${VISUAL}$2
+\end{multicols}
+endsnippet
+
+pre_expand "createTable(snip, match)"
+snippet "([a-z])?table\((\d+) (\d+)\)" "Generate table of *width* by *height*" r
+endsnippet
+
+pre_expand "addRow(snip, match)"
+snippet "tr\((\d+)\)" "Add table row of dimension" r
+endsnippet
+
+# fig -> figure environment
+context "text()"
+snippet fig "Figure Environment" Abm
+\begin{figure}[${1:h}]
+	\centering
+
+	$2
+
+	\caption{${3}}
+	\label{fig:${4:${3/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+\end{figure}
+endsnippet
+
+# subfig -> subfigure environment
+context "env('figure')"
+snippet subfig "Figure Environment" Abm
+\begin{subfigure}[${1:b}]{${2:0.45}\textwidth}
+	\centering
+
+	$4
+
+	\caption{${5}}
+	\label{fig:${6:${5/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+\end{subfigure}
+endsnippet
+
+# mat -> matrix environment
+# pmat -> pmatrix environment
+# bmat -> bmatrix environment
+# Bmat -> Bmatrix environment
+# vmat -> vmatrix environment
+# Vmat -> Vmatrix environment
+priority 0
+context "math()"
+pre_expand "createMatrix(snip, match)"
+snippet "(a)?(d|p|b|B|v|V)?mat\(([1-9]+) ([1-9]+)\)" "Matrix" rbm
+endsnippet
+
+# vim:ft=snippets:

@@ -1,0 +1,91 @@
+global !p
+
+from builtin import chooseNext
+from latex_.scopes import math
+from latex_.variables import dots, infties
+
+endglobal
+
+
+################################################################################
+#                                                                              #
+#                                   Symbols                                    #
+#                                                                              #
+################################################################################
+
+# ... -> \dots
+context "math()"
+snippet ... "Ellipsis" Ai
+\dots
+endsnippet
+
+# \dots  -> \cdots
+# \cdots -> \vdots
+# \vdots -> \ddots
+# \ddots -> \dots
+context "math()"
+snippet "\\((?:c|v|d)?)dots(\s?)" "Ellipsis Transformation" r
+\\`!p
+snip.rv = chooseNext(match.group(1), dots, 4) + "dots" + match.group(2)
+`
+endsnippet
+
+# ooo -> \infty
+context "math()"
+snippet ooo "Infinity" Ai
+\infty
+endsnippet
+
+# \infty  -> -\infty
+# -\infty -> +\infty
+# +\infty -> \infty
+context "math()"
+snippet "((?:\+|-)?)\\infty(\s?)" "Infinity Transformation" r
+`!p
+snip.rv = chooseNext(match.group(1), infties, 3) + "\\infty" + match.group(2)
+`
+endsnippet
+
+# nbl -> \nabla
+context "math()"
+snippet nbl "Nabla" Ai
+\nabla
+endsnippet
+
+# RR -> \mathbb{R}
+context "math()"
+snippet RR "Set of Real Numbers" wA
+\mathbb{R}
+endsnippet
+
+# ZZ -> \mathbb{Z}
+context "math()"
+snippet ZZ "Set of Integers" wA
+\mathbb{Z}
+endsnippet
+
+# QQ -> \mathbb{Q}
+context "math()"
+snippet QQ "Set of Rational Numbers" wA
+\mathbb{Q}
+endsnippet
+
+# NN -> \mathbb{N}
+context "math()"
+snippet NN "Set of Natural Numbers" wA
+\mathbb{N}
+endsnippet
+
+# CC -> \mathbb{C}
+context "math()"
+snippet CC "Set of Complex Numbers" wA
+\mathbb{C}
+endsnippet
+
+# mod -> \vdash
+context "math()"
+snippet mod "Models" A
+\vdash $0
+endsnippet
+
+# vim:ft=snippets:

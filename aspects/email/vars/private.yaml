@@ -1,0 +1,54 @@
+# mbsync/mbsyncrc
+email_1: singularisartt@gmail.com
+email_1_password: get-password emails/account-1 neomutt
+email_1_server: imap.gmail.com
+
+email_2: dermdorm2@gmail.com
+email_2_password: get-password emails/account-2 neomutt
+email_2_server: imap.gmail.com
+
+email_3: hashem.damrah@pcc.edu
+email_3_password: get-password emails/account-3
+email_3_server: imap.gmail.com
+
+email_4: hdamrah9249@bakercharters.org
+email_4_password: get-password emails/account-4
+email_4_server: imap.gmail.com
+
+email_5: alaa.damrah@pcc.edu
+email_5_password: get-password emails/account-5
+email_5_server: imap.gmail.com
+
+email_6: singularisart@outlook.com
+email_6_password: get-password emails/account-6 neomutt
+email_6_server: outlook.office365.com
+
+email_7: hdamrah@uoregon.edu
+email_7_password: get-password emails/account-6
+email_7_server: outlook.office365.com
+
+# msmtp/config
+email_1_host: smtp.gmail.com
+email_1_port: 587
+
+email_2_host: smtp.gmail.com
+email_2_port: 587
+
+email_3_host: smtp.gmail.com
+email_3_port: 587
+
+email_4_host: smtp.gmail.com
+email_4_port: 587
+
+email_5_host: smtp.gmail.com
+email_5_port: 587
+
+email_6_host: smtp.office365.com
+email_6_port: 993
+
+email_7_host: smtp.office365.com
+email_7_port: 993
+
+# notmuch/config
+user: user
+primary_email: singularisartt@gmail.com

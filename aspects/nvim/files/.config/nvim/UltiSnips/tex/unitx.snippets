@@ -1,0 +1,73 @@
+global !p
+
+from latex_.scopes import text
+from latex_.cmdsub import expandUnit
+from latex_.variables import units
+
+endglobal
+
+
+################################################################################
+#                                                                              #
+#                                   SI Units                                   #
+#                                                                              #
+################################################################################
+
+###########
+#  Units  #
+###########
+
+# un -> \unit{\}
+snippet un "Unit" i
+\unit{\\$1}
+endsnippet
+
+# un(km)            -> \unit{\kilometer}
+# un(km sq)         -> \unit{\kilometer\squared}
+# un(km sq  hr)     -> \unit{\kilometer\squared\per\hour}
+# un(km sq  hr  ft) -> \unit{\kilometer\squared\per\hour\per\feet}
+snippet "un\(([a-z ]+)\)" "Unit" ir
+\unit{`!p snip.rv = expandUnit(match.group(1))`}
+endsnippet
+
+########################
+#  Angles and Numbers  #
+########################
+
+# ang -> \ang{}
+# num -> \num{}
+snippet "(ang|num)" "Angle or Number" ir
+\\`!p snip.rv = match.group(1)`{$1}$0
+endsnippet
+
+# ang5   -> \ang{5}
+# ang5.5 -> \ang{5.5}
+# num5   -> \num{5}
+# num5.5 -> \num{5.5}
+snippet "(ang|num)([0-9a-z.]+)" "Angle or Number" ir
+\\`!p snip.rv = match.group(1)`{`!p snip.rv = match.group(2)`}$0
+endsnippet
+
+#######################
+#  Units and Numbers  #
+#######################
+
+# SI -> \SI{}{\}
+snippet SI "Number with Unit" i
+\SI{$1}{\\$2}$0
+endsnippet
+
+# SIP -> \SI{}{\\per\}
+snippet SIP "Number with Unit Per Unit" i
+\SI{$1}{\\$2\per\\$3}$0
+endsnippet
+
+# SI(5 km)            -> \SI{5}{\kilometer}
+# SI(5 km sq)         -> \SI{5}{\kilometer\squared}
+# SI(5 km sq  hr)     -> \SI{5}{\kilometer\squared\per\hour}
+# SI(5 km sq  hr  ft) -> \SI{5}{\kilometer\squared\per\hour\per\feet}
+snippet "SI\(([0-9.]+) ([a-z ]+)\)" "Number with Unit Per Unit" ir
+\SI{`!p snip.rv = match.group(1)`}{`!p snip.rv = expandUnit(match.group(2))`}$0
+endsnippet
+
+# vim:ft=snippets:

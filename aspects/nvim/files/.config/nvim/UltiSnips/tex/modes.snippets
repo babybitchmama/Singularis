@@ -1,0 +1,27 @@
+global !p
+
+from latex_.scopes import text, math
+
+endglobal
+
+
+################################################################################
+#                                                                              #
+#                                    Modes                                     #
+#                                                                              #
+################################################################################
+
+# ilm -> $$
+context "text()"
+snippet ilm "Inline Math" wA
+$${VISUAL}$1$
+endsnippet
+
+context "text()"
+snippet dm "Display Math" bA
+\[%
+	${VISUAL}$1
+${2:.}\]%$0
+endsnippet
+
+# vim:ft=snippets:
