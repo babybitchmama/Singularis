@@ -6,38 +6,6 @@ def math():
     return vim.eval("vimtex#syntax#in_mathzone()") == "1"
 
 
-def math_strict(snip):
-    """
-    True only if the entire trigger is inside math.
-    Safe for cmp-nvim-ultisnips (where snip.matched may not exist).
-    """
-
-    # If cursor not in math → reject
-    if not math():
-        return False
-
-    # During completion, UltiSnips doesn't know the match yet.
-    # In that case, fall back to normal math check.
-    if not hasattr(snip, "matched") or snip.matched is None:
-        return True
-
-    line, col = vim.current.window.cursor
-    start_col = col - len(snip.matched)
-
-    # Save cursor position
-    curpos = vim.eval("getpos('.')")
-
-    # Move to start of match (Vim is 1-indexed)
-    vim.eval(f"setpos('.', [0, {line}, {start_col + 1}, 0])")
-
-    start_in_math = math()
-
-    # Restore cursor
-    vim.eval(f"setpos('.', {curpos})")
-
-    return start_in_math
-
-
 # Pure Math Mode
 def pureMath():
     return math() and notChem() and notUnit()
