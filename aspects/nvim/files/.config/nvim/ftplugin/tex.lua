@@ -2,6 +2,12 @@ if vim.g.isInkscape then
   return function(_use) end
 end
 
+vim.cmd([[
+set foldmethod=expr
+set foldexpr=vimtex#fold#level(v:lnum)
+set foldtext=vimtex#fold#text()
+]])
+
 require("config.options").tex()
 
 local opts = require("config.global").opts

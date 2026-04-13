@@ -45,7 +45,10 @@ return function(use)
   -- treesitter
   use({
     "nvim-treesitter/nvim-treesitter",
+    lazy = false,
     config = ts.treesitter,
+    branch = "master",
+    build = ":TSUpdate",
   })
 
   -- use({
@@ -76,43 +79,43 @@ return function(use)
   --   },
   -- })
 
-  use({
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    config = ts.treesitter_obj,
-  })
+  -- use({
+  --   "nvim-treesitter/nvim-treesitter-textobjects",
+  --   config = ts.treesitter_obj,
+  -- })
 
   -- use({
   --   "RRethy/nvim-treesitter-textsubjects",
   --   config = ts.textsubjects,
   -- })
 
-  use({
-    "nvim-treesitter/nvim-treesitter-context",
-    config = function()
-      require("treesitter-context").setup({
-        enable = true,
-        max_lines = 5,
-        trim_scope = "outer",
-        mode = "topline",
-        patterns = {
-          default = {
-            "class",
-            "function",
-            "method",
-            "for",
-            "while",
-            "if",
-            "switch",
-          },
-        },
-      })
-    end,
-  })
+  -- use({
+  --   "nvim-treesitter/nvim-treesitter-context",
+  --   config = function()
+  --     require("treesitter-context").setup({
+  --       enable = true,
+  --       max_lines = 5,
+  --       trim_scope = "outer",
+  --       mode = "topline",
+  --       patterns = {
+  --         default = {
+  --           "class",
+  --           "function",
+  --           "method",
+  --           "for",
+  --           "while",
+  --           "if",
+  --           "switch",
+  --         },
+  --       },
+  --     })
+  --   end,
+  -- })
 
   use({ "JoosepAlviste/nvim-ts-context-commentstring" })
 
-  -- -- logs
-  -- use({ "mtdl9/vim-log-highlighting", ft = { "text", "txt", "log" } })
+  -- logs
+  use({ "mtdl9/vim-log-highlighting", ft = { "text", "txt", "log" } })
 
   -- markdown
   use({

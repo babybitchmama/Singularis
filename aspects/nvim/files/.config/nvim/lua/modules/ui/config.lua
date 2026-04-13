@@ -52,25 +52,6 @@ function config.ufo_init()
   vim.o.foldenable = true
 end
 
-function config.ufo()
-  local ufo = require("ufo")
-  ufo.setup(opts)
-
-  vim.api.nvim_create_autocmd("LspAttach", {
-    desc = "Setup Ufo `K` with LSP hover",
-    callback = function(args)
-      local bufnr = args.buf
-
-      vim.keymap.set("n", "K", function()
-        local winid = ufo.peekFoldedLinesUnderCursor()
-        if not winid then
-          vim.lsp.buf.hover()
-        end
-      end, { buffer = bufnr, desc = "LSP: Signature help" })
-    end,
-  })
-end
-
 function config.zen_mode()
   require("zen-mode").setup({
     window = {

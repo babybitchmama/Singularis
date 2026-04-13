@@ -79,7 +79,7 @@ function Lazyload()
     -- loader("nvim-treesitter-textobjects")
     -- loader("nvim-treesitter-textsubjects")
     -- loader("nvim-ts-context-commentstring")
-    loader("nvim-treesitter-context")
+    -- loader("nvim-treesitter-context")
 
     loader("guihua.lua")
     -- loader("nvim-lspconfig")

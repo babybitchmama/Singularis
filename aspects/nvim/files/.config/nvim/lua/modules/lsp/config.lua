@@ -156,7 +156,11 @@ function config.navigator()
     group = vim.api.nvim_create_augroup('LspAttach', {}),
     callback = function(ev)
       local buf = ev.buf
-      on_attach(ev.client, buf)
+      -- Fetch the actual client object using the ID provided by the event
+      local client = vim.lsp.get_client_by_id(ev.data.client_id)
+
+      -- Now client is a valid table, not nil
+      on_attach(client, buf)
     end,
   })
 

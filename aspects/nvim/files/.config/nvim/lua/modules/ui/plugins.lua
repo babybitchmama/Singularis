@@ -9,7 +9,8 @@ local latexPlugins = {
     -- require("mini.hues").setup({ background = "#0E0814", foreground = "#cfd9dc", saturation = "high", n_hues = 6
     -- require("mini.hues").setup({ background = "#0f0c22", foreground = "#7cdeec", saturation = "high", n_hues = 6 })
     -- require("mini.hues").setup({ background = "#151823", foreground = "#a9b9dc", saturation = "high", n_hues = 6 })
-    require("mini.hues").setup({ background = "#121c2d", foreground = "#cbdde8", saturation = "high", n_hues = 6 })
+    -- require("mini.hues").setup({ background = "#121c2d", foreground = "#cbdde8", saturation = "high", n_hues = 6 })
+    require("mini.hues").setup({ background = "#15171a", foreground = "#dcc7c2", saturation = "high", n_hues = 6 })
   end,
   lazy = false,
   -- {

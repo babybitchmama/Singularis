@@ -76,10 +76,14 @@ end
 -- Function for setting tex options
 M.tex = function()
   opt.spell = true
-  opt.tw = 80
+  opt.tw = 0
   opt.fillchars = { fold = " ", vert = "│" }
   opt.foldlevel = 99
   opt.foldmethod = "manual"
+  opt.foldmethod = "expr"
+  opt.foldexpr = "vimtex#fold#level(v:lnum)"
+  opt.foldtext="vimtex#fold#text()"
+  vim.keymap.set("n", "<Tab>", "za", { noremap = true, silent = true })
 end
 
 return M

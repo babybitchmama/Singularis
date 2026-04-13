@@ -32,9 +32,12 @@ lsp.attach_mappings = function(_, bufnr)
   vim.keymap.set("n", "K", "<CMD>lua vim.lsp.buf.hover()<CR>", { buffer = true, silent = true })
   vim.keymap.set("n", "<leader>le", vim.diagnostic.open_float, { buffer = true, silent = true })
   vim.keymap.set("n", "<leader>lc", vim.lsp.buf.code_action, { buffer = true, silent = true })
+  vim.keymap.set("n", "<leader>lf", function()
+    vim.lsp.buf.format({ async = true })
+  end, { buffer = true, silent = true })
   vim.keymap.set("n", "<leader>lE", "<CMD>Telescope diagnostics<CR>", { buffer = true, silent = true })
-  vim.keymap.set("n", "<leader>lr", function()
-    vim.lsp.bu.format({ async = true })
+  vim.keymap.set("n", "<leader>lf", function()
+    vim.lsp.buf.format({ async = true })
   end, { buffer = true, silent = true })
   vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = true, silent = true })
   vim.keymap.set("n", "<leader>li", vim.cmd.LspInfo, { buffer = true, silent = true })
@@ -66,14 +69,13 @@ end
 lsp.on_attach = function(client, bufnr)
   lsp.attach_mappings(client, bufnr)
 
-  -- if client.name == "jdtls" then
-  --   require("jdtls").setup_dap({ hotcodereplace = "auto" })
-  --   require("jdtls.dap").setup_dap_main_class_configs()
-
-  --   vim.lsp.codelens.refresh()
-  -- elseif client.name == "clangd" then
-  --   require("modules.lsp.filetypes.cpp").clangd_extensions()
-  -- end
+  if client.name == "jdtls" then
+    require("jdtls").setup_dap({ hotcodereplace = "auto" })
+    require("jdtls.dap").setup_dap_main_class_configs()
+    vim.lsp.codelens.refresh()
+  elseif client.name == "clangd" then
+    require("modules.lsp.filetypes.cpp").clangd_extensions()
+  end
 
   require("inlay-hints").on_attach(client, bufnr)
   if vim.bo.filetype ~= "TelescopePrompt" then

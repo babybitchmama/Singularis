@@ -50,7 +50,7 @@ endsnippet
 # liinty   -> \iint\limits_{0}^{\infty} \,\dy
 # liiinty  -> \iiint\limits_{0}^{\infty} \,\dy
 # lointy   -> \oint\limits_{0}^{\infty} \,\dy
-context "math(snip)"
+context "math()"
 snippet "(l)?(o?i{1,3})nt(.+)?" "Definite Integral" r
 \\`!p snip.rv = match.group(2)`nt`!p snip.rv = "\\limits" if match.group(1) else ""`_{${1:0}}^{${2:\infty}} ${3:${VISUAL}} \\${4:,}`!p
 wrt = list(match.group(3)) if match.group(3) else ['x']

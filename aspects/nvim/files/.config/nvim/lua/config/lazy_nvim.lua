@@ -1,4 +1,4 @@
-local uv, api, fn = vim.loop, vim.api, vim.fn
+local uv, _, fn = vim.loop, vim.api, vim.fn
 local helper = require("config.helper")
 local win = require("config.global").is_windows
 local lazy = {}

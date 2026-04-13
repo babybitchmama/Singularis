@@ -47,6 +47,7 @@ return function(use)
           TelescopePrompt = false,
           AvanteInput = false,
           Avante = false,
+          markdown = true,
           ["."] = false,
         },
         copilot_node_command = "node",
