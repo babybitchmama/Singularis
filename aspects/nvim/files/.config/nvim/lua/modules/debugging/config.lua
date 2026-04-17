@@ -69,17 +69,17 @@ function config.nvim_dap()
     layouts = {
       {
         elements = {
-          { id = "scopes",      size = 0.33 },
+          { id = "scopes", size = 0.33 },
           { id = "breakpoints", size = 0.17 },
-          { id = "stacks",      size = 0.25 },
-          { id = "watches",     size = 0.25 },
+          { id = "stacks", size = 0.25 },
+          { id = "watches", size = 0.25 },
         },
         size = 0.33,
         position = "right",
       },
       {
         elements = {
-          { id = "repl",    size = 0.45 },
+          { id = "repl", size = 0.45 },
           { id = "console", size = 0.55 },
         },
         size = 0.27,
@@ -99,6 +99,38 @@ function config.nvim_dap()
   dap.listeners.after.event_initialized["dapui_config"] = function()
     dapui.open()
   end
+end
+
+config.config_paths = { "./.nvim-dap/nvim-dap.lua", "./.nvim-dap.lua", "./.nvim/nvim-dap.lua" }
+
+function config.search_project_config()
+  local dap = require("dap")
+
+  local project_config = nil
+  for _, p in ipairs(config.config_paths) do
+    local f = io.open(p)
+    if f then
+      f:close()
+      project_config = p
+      break
+    end
+  end
+
+  if not project_config then
+    return
+  end
+
+  vim.notify("[nvim-dap-projects] Found config: " .. project_config)
+
+  -- clear safely
+  for k in pairs(dap.adapters) do
+    dap.adapters[k] = nil
+  end
+  for k in pairs(dap.configurations) do
+    dap.configurations[k] = nil
+  end
+
+  dofile(project_config)
 end
 
 return config

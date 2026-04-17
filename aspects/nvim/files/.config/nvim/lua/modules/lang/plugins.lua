@@ -26,7 +26,7 @@ if vim.g.isLATEX then
         { "<Leader>Lll", "<CMD>VimtexClean<CR>", desc = "Clean Project" },
         { "<Leader>Llc", "<CMD>VimtexClean<CR>", desc = "Clean Cache" },
         { "<Leader>Lcc", "<CMD>VimtexCompile<CR>", desc = "Compile Project" },
-        { "<Leader>Lco", "<CMD>VimtexCompileOutput<CR>", desc = "Compile Project and Show Output", },
+        { "<Leader>Lco", "<CMD>VimtexCompileOutput<CR>", desc = "Compile Project and Show Output" },
         { "<Leader>Lcs", "<CMD>VimtexCompileSS<CR>", desc = "Compile project super fast" },
         { "<Leader>Lce", "<CMD>VimtexCompileSelected<CR>", desc = "Compile Selected" },
         { "<Leader>Lrr", "<CMD>VimtexReload<CR>", desc = "Reload" },
@@ -66,51 +66,52 @@ return function(use)
   --   },
   -- })
 
-  -- use({
-  --   "nvim-treesitter/nvim-treesitter-refactor",
-  --   config = ts.treesitter_ref,
-  --   dependencies = {
-  --     {
-  --       "andymass/vim-matchup",
-  --       setup = function()
-  --         vim.g.matchup_matchparen_offscreen = { method = "popup" }
-  --       end,
-  --     },
-  --   },
-  -- })
+  use({
+    "nvim-treesitter/nvim-treesitter-refactor",
+    config = ts.treesitter_ref,
+    dependencies = {
+      {
+        "andymass/vim-matchup",
+        setup = function()
+          vim.g.matchup_matchparen_offscreen = { method = "popup" }
+        end,
+      },
+    },
+  })
 
-  -- use({
-  --   "nvim-treesitter/nvim-treesitter-textobjects",
-  --   config = ts.treesitter_obj,
-  -- })
+  use({
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "master",
+    config = ts.treesitter_obj,
+  })
 
-  -- use({
-  --   "RRethy/nvim-treesitter-textsubjects",
-  --   config = ts.textsubjects,
-  -- })
+  use({
+    "RRethy/nvim-treesitter-textsubjects",
+    config = ts.textsubjects,
+  })
 
-  -- use({
-  --   "nvim-treesitter/nvim-treesitter-context",
-  --   config = function()
-  --     require("treesitter-context").setup({
-  --       enable = true,
-  --       max_lines = 5,
-  --       trim_scope = "outer",
-  --       mode = "topline",
-  --       patterns = {
-  --         default = {
-  --           "class",
-  --           "function",
-  --           "method",
-  --           "for",
-  --           "while",
-  --           "if",
-  --           "switch",
-  --         },
-  --       },
-  --     })
-  --   end,
-  -- })
+  use({
+    "nvim-treesitter/nvim-treesitter-context",
+    config = function()
+      require("treesitter-context").setup({
+        enable = true,
+        max_lines = 5,
+        trim_scope = "outer",
+        mode = "topline",
+        patterns = {
+          default = {
+            "class",
+            "function",
+            "method",
+            "for",
+            "while",
+            "if",
+            "switch",
+          },
+        },
+      })
+    end,
+  })
 
   use({ "JoosepAlviste/nvim-ts-context-commentstring" })
 

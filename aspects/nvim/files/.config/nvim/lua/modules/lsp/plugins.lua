@@ -93,7 +93,8 @@ return function(use)
         },
         rust = {
           template = {
-            annotation_convention = "rustdoc",
+            -- annotation_convention = "rustdoc",
+            annotation_convention = "rust_alternative",
           },
         },
         javascript = {
@@ -174,20 +175,24 @@ return function(use)
   -- use({ "ianks/vim-tsx", ft = "typescriptreact" })
   -- use({ "mxw/vim-jsx", ft = "javascriptreact" })
 
-  -- -- rust
-  -- use({ "simrat39/rust-tools.nvim", ft = "rust" })
-  -- use({
-  --   "Saecki/crates.nvim",
-  --   config = function()
-  --     require("crates").setup({
-  --       null_ls = {
-  --         enabled = true,
-  --         name = "crates.nvim",
-  --       },
-  --     })
-  --   end,
-  --   ft = "toml",
-  -- })
+  -- rust
+  use({
+    "mrcjkb/rustaceanvim",
+    version = "^9",
+    lazy = false,
+  })
+  use({
+    "Saecki/crates.nvim",
+    config = function()
+      require("crates").setup({
+        null_ls = {
+          enabled = true,
+          name = "crates.nvim",
+        },
+      })
+    end,
+    ft = "toml",
+  })
 
   -- -- java
   -- use({
