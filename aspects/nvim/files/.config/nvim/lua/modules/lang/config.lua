@@ -4,7 +4,7 @@ function config.vimtex()
 end
 
 function config.playground()
-  require("nvim-treesitter.configs").setup({
+  require("nvim-treesitter").setup({
     playground = {
       enable = true,
       disable = {},

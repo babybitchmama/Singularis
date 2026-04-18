@@ -47,8 +47,8 @@ return function(use)
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
     config = ts.treesitter,
-    branch = "master",
     build = ":TSUpdate",
+    branch = "main",
   })
 
   -- use({
@@ -81,8 +81,11 @@ return function(use)
 
   use({
     "nvim-treesitter/nvim-treesitter-textobjects",
-    branch = "master",
-    config = ts.treesitter_obj,
+    branch = "main",
+    init = function()
+      vim.g.no_plugin_maps = true
+    end,
+    -- config = ts.treesitter_obj,
   })
 
   use({

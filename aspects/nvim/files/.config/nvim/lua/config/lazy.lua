@@ -36,14 +36,6 @@ local createdir = function()
   end
 end
 
-if vim.wo.diff then
-  vim.cmd([[packadd nvim-treesitter]])
-  require("nvim-treesitter.configs").setup({
-    highlight = { enable = true, use_languagetree = false },
-  })
-  return
-end
-
 function Lazyload()
   require("config.helper").init()
 
@@ -77,7 +69,7 @@ function Lazyload()
   if not vim.g.isLATEX or vim.g.isInkscape then
     loader("nvim-treesitter")
     loader("nvim-treesitter-textobjects")
-    loader("nvim-treesitter-textsubjects")
+    -- loader("nvim-treesitter-textsubjects")
     loader("nvim-ts-context-commentstring")
     loader("nvim-treesitter-context")
 
