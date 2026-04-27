@@ -1,5 +1,5 @@
-vim.g.isLATEX = false
-vim.g.isInkscape = false
+-- require("inits")
+require("inits/latex-init")
 
 if vim.loader then
   vim.loader.enable()

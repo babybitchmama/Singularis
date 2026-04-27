@@ -83,11 +83,81 @@ local treesitter = function()
 end
 
 local treesitter_obj = function()
-  local lines = vim.fn.line("$")
-  if lines > 8000 then
-    print("skip treesitter obj")
-    return
-  end
+  local treesitter_objects = require("nvim-treesitter-textobjects")
+
+  local treesitter_objects_select = require("nvim-treesitter-textobjects.select")
+  local treesitter_objects_swap = require("nvim-treesitter-textobjects.swap")
+  local treesitter_objects_move = require("nvim-treesitter-textobjects.move")
+
+  treesitter_objects.setup({
+    move = {
+      set_jumps = true,
+    },
+  })
+
+  vim.keymap.set({ "x", "o" }, "af", function()
+    treesitter_objects_select.select_textobject("@function.outer", "textobjects")
+  end)
+  vim.keymap.set({ "x", "o" }, "if", function()
+    treesitter_objects_select.select_textobject("@function.inner", "textobjects")
+  end)
+  vim.keymap.set({ "x", "o" }, "ac", function()
+    treesitter_objects_select.select_textobject("@class.outer", "textobjects")
+  end)
+  vim.keymap.set({ "x", "o" }, "ic", function()
+    treesitter_objects_select.select_textobject("@class.inner", "textobjects")
+  end)
+  vim.keymap.set({ "x", "o" }, "as", function()
+    treesitter_objects_select.select_textobject("@local.scope", "locals")
+  end)
+
+  vim.keymap.set("n", "<leader>a", function()
+    treesitter_objects_swap.swap_next("@parameter.inner")
+  end)
+  vim.keymap.set("n", "<leader>A", function()
+    treesitter_objects_swap.swap_next("@parameter.outer")
+  end)
+
+  vim.keymap.set({ "n", "x", "o" }, "]m", function()
+    treesitter_objects_move.goto_next_start("@function.outer", "textobjects")
+  end)
+  vim.keymap.set({ "n", "x", "o" }, "]]", function()
+    treesitter_objects_move.goto_next_start("@class.outer", "textobjects")
+  end)
+  vim.keymap.set({ "n", "x", "o" }, "]s", function()
+    treesitter_objects_move.goto_next_start("@local.scope", "locals")
+  end)
+  vim.keymap.set({ "n", "x", "o" }, "]z", function()
+    treesitter_objects_move.goto_next_start("@fold", "folds")
+  end)
+
+  vim.keymap.set({ "n", "x", "o" }, "]M", function()
+    treesitter_objects_move.goto_next_end("@function.outer", "textobjects")
+  end)
+  vim.keymap.set({ "n", "x", "o" }, "][", function()
+    treesitter_objects_move.goto_next_end("@class.outer", "textobjects")
+  end)
+
+  vim.keymap.set({ "n", "x", "o" }, "[m", function()
+    treesitter_objects_move.goto_previous_start("@function.outer", "textobjects")
+  end)
+  vim.keymap.set({ "n", "x", "o" }, "[[", function()
+    treesitter_objects_move.goto_previous_start("@class.outer", "textobjects")
+  end)
+
+  vim.keymap.set({ "n", "x", "o" }, "[M", function()
+    treesitter_objects_move.goto_previous_end("@function.outer", "textobjects")
+  end)
+  vim.keymap.set({ "n", "x", "o" }, "[]", function()
+    treesitter_objects_move.goto_previous_end("@class.outer", "textobjects")
+  end)
+
+  vim.keymap.set({ "n", "x", "o" }, "]d", function()
+    treesitter_objects_move.goto_next("@conditional.outer", "textobjects")
+  end)
+  vim.keymap.set({ "n", "x", "o" }, "[d", function()
+    treesitter_objects_move.goto_previous("@conditional.outer", "textobjects")
+  end)
 end
 
 local treesitter_ref = function()

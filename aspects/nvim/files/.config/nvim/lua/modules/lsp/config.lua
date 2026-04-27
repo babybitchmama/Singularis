@@ -1,10 +1,10 @@
 local config = {}
+local icons = require("config.global").icons
 
 function config.nvim_lsp()
   -- local mason = require("mason-lspconfig")
   local conf = require("modules.lsp.lsp_config")
   local servers = conf.servers
-  local icons = require("config.global").icons
 
   vim.diagnostic.config({
     virtual_text = false,
@@ -152,8 +152,8 @@ function config.navigator()
   local capabilities = require("modules.lsp.handlers").capabilities
 
   -- Create LspAttach autocmd
-  vim.api.nvim_create_autocmd('LspAttach', {
-    group = vim.api.nvim_create_augroup('LspAttach', {}),
+  vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("LspAttach", {}),
     callback = function(ev)
       local buf = ev.buf
       -- Fetch the actual client object using the ID provided by the event
@@ -164,7 +164,7 @@ function config.navigator()
     end,
   })
 
-  local nav_cfg = {
+  local nav_cnf = {
     debug = true,
     width = 0.75,
     height = 0.3,
@@ -181,12 +181,26 @@ function config.navigator()
     transparency = 50,
     capabilities = capabilities,
 
+    icons = {
+      icons = true,
+      diagnostic_err = icons.diagnostics.Error,
+      diagnostic_warn = icons.diagnostics.Warn,
+      diagnostic_info = icons.diagnostics.Info,
+      diagnostic_hint = icons.diagnostics.Hint,
+    },
+
     lsp = {
       enable = true,
-      code_action = { enable = false },
       code_lens_action = { enable = false },
       document_highlight = true,
       format_on_save = false,
+      code_action = {
+        enable = false,
+        sign = false,
+        sign_priority = 40,
+        virtual_text = false,
+        virtual_text_icon = false,
+      },
       diagnostic = {
         underline = true,
         virtual_text = false,
@@ -198,7 +212,7 @@ function config.navigator()
         "yamlls",
         "angularls",
         "jedi_language_server",
-        "pylsp",
+        -- "pylsp",
         "tsserver",
         "ruff_lsp",
         "texlab",
@@ -212,6 +226,7 @@ function config.navigator()
       vimls = {},
       emmet_ls = require("modules.lsp.settings.emmet_ls"),
       -- jsonls = require("modules.lsp.settings.jsonls"),
+      servers = { "pylsp" },
       pyright = require("modules.lsp.settings.pyright"),
       rust_analyzer = require("modules.lsp.settings.rust_analyzer"),
       solang = require("modules.lsp.settings.solang"),
@@ -249,7 +264,7 @@ function config.navigator()
     },
   }
 
-  nav_cfg.lsp.gopls = function()
+  nav_cnf.lsp.gopls = function()
     if vim.tbl_contains({ "go", "gomod" }, vim.bo.filetype) then
       if pcall(require, "go") then
         return require("go.lsp").config()
@@ -257,12 +272,21 @@ function config.navigator()
     end
   end
 
-  require("navigator").setup(nav_cfg)
+  require("navigator").setup(nav_cnf)
+
+  vim.diagnostic.config({
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+        [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
+        [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
+        [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+      },
+    },
+  })
 end
 
-function config.lsp_singature()
-  local icons = require("config.global").icons
-
+function config.lsp_signature()
   local signature_help_setup = {
     bind = true,
     noice = true,

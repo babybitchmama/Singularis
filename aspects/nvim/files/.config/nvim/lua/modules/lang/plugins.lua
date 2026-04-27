@@ -51,21 +51,6 @@ return function(use)
     branch = "main",
   })
 
-  -- use({
-  --   "windwp/nvim-ts-autotag",
-  --   after = "nvim-treesitter",
-  --   config = function()
-  --     require("nvim-ts-autotag").setup()
-  --   end,
-  --   ft = {
-  --     "html",
-  --     "javascript",
-  --     "typescript",
-  --     "javascript.jsx",
-  --     "typescript.tsx",
-  --   },
-  -- })
-
   use({
     "nvim-treesitter/nvim-treesitter-refactor",
     config = ts.treesitter_ref,
@@ -85,12 +70,7 @@ return function(use)
     init = function()
       vim.g.no_plugin_maps = true
     end,
-    -- config = ts.treesitter_obj,
-  })
-
-  use({
-    "RRethy/nvim-treesitter-textsubjects",
-    config = ts.textsubjects,
+    config = ts.treesitter_obj,
   })
 
   use({
@@ -131,7 +111,22 @@ return function(use)
   use({ "dhruvasagar/vim-table-mode", ft = "markdown" })
   use({ "mzlogin/vim-markdown-toc", ft = "markdown" })
 
-  -- -- html/javascript react/typescript react
+  -- html/javascript react/typescript react
+  use({
+    "windwp/nvim-ts-autotag",
+    after = "nvim-treesitter",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+    ft = {
+      "html",
+      "javascript",
+      "typescript",
+      "javascript.jsx",
+      "typescript.tsx",
+    },
+  })
+
   -- use({
   --   "mattn/emmet-vim",
   --   ft = {

@@ -74,6 +74,19 @@ return function(use)
     after = "nvim-lspconfig",
     config = conf.navigator,
   })
+  use({
+    "ray-x/lsp_signature.nvim",
+    config = conf.lsp_signature,
+    keys = {
+      {
+        "<C-s>",
+        function()
+          require("lsp_signature").toggle_float_win()
+        end,
+        desc = "Toggle lsp signature",
+      },
+    },
+  })
 
   -- documentation
   use({

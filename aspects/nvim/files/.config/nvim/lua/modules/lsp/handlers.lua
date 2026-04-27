@@ -29,6 +29,8 @@ lsp.setup_codelens_refresh = function(client, bufnr)
 end
 
 lsp.attach_mappings = function(_, bufnr)
+  local peek_functionality = require("modules.lsp.peek")
+
   vim.keymap.set("n", "K", "<CMD>lua vim.lsp.buf.hover()<CR>", { buffer = true, silent = true })
   vim.keymap.set("n", "<leader>le", vim.diagnostic.open_float, { buffer = true, silent = true })
   vim.keymap.set("n", "<leader>lc", vim.lsp.buf.code_action, { buffer = true, silent = true })
@@ -40,18 +42,13 @@ lsp.attach_mappings = function(_, bufnr)
     vim.lsp.buf.format({ async = true })
   end, { buffer = true, silent = true })
   vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = true, silent = true })
-  vim.keymap.set("n", "<leader>li", vim.cmd.LspInfo, { buffer = true, silent = true })
-  vim.keymap.set("n", "<leader>lo", vim.cmd.OutlineOpen, { buffer = true, silent = true })
   vim.keymap.set("n", "<leader>lj", vim.diagnostic.goto_next, { buffer = true, silent = true })
   vim.keymap.set("n", "<leader>lk", vim.diagnostic.goto_prev, { buffer = true, silent = true })
   vim.keymap.set("n", "<leader>ls", vim.lsp.buf.signature_help, { buffer = true, silent = true })
   vim.keymap.set("n", "<leader>lD", "<CMD>Namu symbols<CR>", { buffer = true, silent = true })
+
   vim.keymap.set("n", "<leader>ldp", function()
-    require("nvim-treesitter.textobjects.lsp_interop").peek_definition_code(
-      "@function.outer",
-      nil,
-      "textDocument/typeDefinition"
-    )
+    peek_functionality.peek_definition_code("@function.outer", "textobjects")
   end, { buffer = true, silent = true })
 
   vim.keymap.set("n", "<leader>ldd", vim.lsp.buf.definition, { buffer = true, silent = true })
@@ -69,18 +66,20 @@ end
 lsp.on_attach = function(client, bufnr)
   lsp.attach_mappings(client, bufnr)
 
-  if client.name == "jdtls" then
-    require("jdtls").setup_dap({ hotcodereplace = "auto" })
-    require("jdtls.dap").setup_dap_main_class_configs()
-    vim.lsp.codelens.refresh()
-  elseif client.name == "clangd" then
-    require("modules.lsp.filetypes.cpp").clangd_extensions()
-  end
+  -- if client.name == "jdtls" then
+  --   require("jdtls").setup_dap({ hotcodereplace = "auto" })
+  --   require("jdtls.dap").setup_dap_main_class_configs()
+  --   vim.lsp.codelens.refresh()
+  -- elseif client.name == "clangd" then
+  --   require("modules.lsp.filetypes.cpp").clangd_extensions()
+  -- end
 
   require("inlay-hints").on_attach(client, bufnr)
   if vim.bo.filetype ~= "TelescopePrompt" then
     lsp.setup_codelens_refresh(client, bufnr)
   end
+
+  require("lsp_signature").on_attach(client, bufnr)
 
   -- if client.name == "sqls" then
   --   require("sqls").on_attach(client, bufnr)
